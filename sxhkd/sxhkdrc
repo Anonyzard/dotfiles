@@ -1,0 +1,124 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+# Return
+super + t
+	sakura
+
+# program launcher
+super + @space
+	rofi -show-icons -show drun
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# screenshot
+Print
+    gnome-screenshot -i
+
+# file manager
+super + f
+	pcmanfm
+
+# default web browser
+super + w
+	x-www-browser
+
+#
+# bspwm hotkeys
+#
+
+# quit/restart bspwm
+super + control + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {q,shift + w}
+	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+#energy options
+super + F4
+    ~/.config/anonyzard/logout.sh
+
+# set the window state
+super + {h,shift + t,s,f}
+        bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{i,j,k,l}
+	bspc node -{f,s} {north,west,south,east}
+
+# focus the next/previous window in the current desktop
+super + {_,shift + }c
+	bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+super + brace{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+        bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + control + {Up,Left,Down,Right}
+	bspc node -z {top 0 -20,left -20 0,bottom 0 20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + {Up,Left,Down,Right}
+	bspc node -z {bottom 0 -20,right -20 0,top 0 20,left 20 0}
+
+# move a floating window
+super + {Up,Left,Down,Right}
+	bspc node -v {0 -20,-20 0,0 20,20 0}
+
+#
+# Display/Brightness/Sound (XF86Keys)
+#
+
+#XF86Display
+super + p
+        arandr
+
+
+XF86MonBrightnessUp
+        notify-system brightness inc
+XF86MonBrightnessDown
+        notify-system brightness dec
+
+XF86AudioRaiseVolume
+        notify-system volume inc
+XF86AudioLowerVolume
+        notify-system volume dec
+XF86AudioMute
+        notify-system volume mute
+XF86AudioPlay
+        playerctl play-pause
+XF86AudioStop
+        playerctl stop
+XF86AudioNext
+        playerctl next
+XF86AudioPrev
+        playerctl previous
+
+
+

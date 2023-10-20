@@ -1,0 +1,55 @@
+#! /bin/bash
+primary="$(xrandr --listactivemonitors | grep 0: | cut -d' ' -f 6)"
+hdmi="$(xrandr --listactivemonitors | grep HDMI | cut -d' ' -f 6)"
+
+xsetbg ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
+_JAVA_AWT_WM_NONREPARENTING=1
+GTK3_MODULES="$GTK3_MODULES:xapp-gtk3-module"
+export _JAVA_AWT_WM_NONREPARENTING GTK3_MODULES
+xsetroot -cursor_name left_ptr
+
+lxpolkit &
+~/.config/polybar/launch.sh &
+#pgrep -x tint2 > /dev/null || tint2 &
+#pgrep -x menu-cached > /dev/null || /usr/lib/menu-cache/menu-cached &
+#pgrep -x dzen2 > /dev/null || .config/dzen2/config.sh &
+#pgrep -x cbatticon > /dev/null || cbatticon -x /home/anonyzard/shbat &
+#pgrep -x picom > /dev/null || picom --experimental-backends &
+rofi -v > /deb/null &
+pgrep -x alttab > /dev/null || alttab -fg "#ffffff" -bg "#1d2021" -frame "#eee0b7" -t 400x30 -i 64x64 -w 1 &
+#sleep 1
+#pgrep -x wpa-cute > /dev/null || wpa-cute -t &
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+#bspc monitor -d I II III IV V VI VII VIII IX X
+if [[ "$(xrandr -q | grep "HDMI-A-0 connected")" ]];then
+xrandr --output $primary --primary --mode 1920x1080 --pos 0x0 --rotate normal --output $hdmi --mode 1920x1080 --pos 1920x0 --rotate normal
+bspc monitor $primary -d 1 2 3 4 5 6 7 8 9
+bspc monitor $hdmi -d 0
+bspc config -m $hdmi right_padding        45
+bspc config -m $hdmi left_padding         45
+bspc config -m $hdmi bottom_padding       30
+notify-send bspwm "HDMI detected" -i display
+else
+xrandr --output $primary --primary --mode 1920x1080 --pos 0x0 --rotate normal
+bspc monitor $primary -d 1 2 3 4 5 6 7 8 9 0
+notify-send bspwm "No HDMI" -i display
+fi
+
+bspc config border_width         1
+bspc config window_gap           5
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=on
+bspc rule -a Arandr state=floating
+bspc rule -a Gcolor3 state=floating
+bspc rule -a Gdebi-gtk state=floating
+bspc rule -a Connman-gtk state=floating
+bspc rule -a Yad state=floating
