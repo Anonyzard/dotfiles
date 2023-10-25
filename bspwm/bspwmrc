@@ -1,8 +1,10 @@
 #! /bin/bash
 primary="$(xrandr --listactivemonitors | grep 0: | cut -d' ' -f 6)"
 hdmi="$(xrandr --listactivemonitors | grep HDMI | cut -d' ' -f 6)"
-
-xsetbg ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
+#bspc config -m "$primary" top_padding 26
+# xsetbg ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
+feh --bg-fill ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
+# nitrogen --set-zoom-fill  ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
 _JAVA_AWT_WM_NONREPARENTING=1
 GTK3_MODULES="$GTK3_MODULES:xapp-gtk3-module"
 export _JAVA_AWT_WM_NONREPARENTING GTK3_MODULES
@@ -20,28 +22,37 @@ pgrep -x alttab > /dev/null || alttab -fg "#ffffff" -bg "#1d2021" -frame "#eee0b
 #sleep 1
 #pgrep -x wpa-cute > /dev/null || wpa-cute -t &
 pgrep -x sxhkd > /dev/null || sxhkd &
+#pgrep -x mpDris2 > /dev/null || mpDris2 > /tmp/mpdris.log & disown
 
 #bspc monitor -d I II III IV V VI VII VIII IX X
 if [[ "$(xrandr -q | grep "HDMI-A-0 connected")" ]];then
-xrandr --output $primary --primary --mode 1920x1080 --pos 0x0 --rotate normal --output $hdmi --mode 1920x1080 --pos 1920x0 --rotate normal
-bspc monitor $primary -d 1 2 3 4 5 6 7 8 9
-bspc monitor $hdmi -d 0
-bspc config -m $hdmi right_padding        45
-bspc config -m $hdmi left_padding         45
-bspc config -m $hdmi bottom_padding       30
+# xrandr --prop | grep "HDMI" -A99 | grep "EDID" -A16 | sed '/EDID:/d' | cut -d\     -f3
+
+# if  grep -q "HDMI-A-0 connected" "$(xrandr -q)" ;then
+xrandr --output "$primary" --primary --mode 1920x1080 --pos 0x0 --rotate normal --output "$hdmi" --mode 1920x1080 --pos 1920x0 --rotate normal
+bspc monitor "$primary" -d 1 2 3 4 5 6 7 8 9
+bspc monitor "$hdmi" -d 0
+bspc config -m "$hdmi" top_padding 0
+# bspc config -m "$hdmi" right_padding        45
+# bspc config -m "$hdmi" left_padding         45
+# bspc config -m "$hdmi" bottom_padding       30
 notify-send bspwm "HDMI detected" -i display
 else
-xrandr --output $primary --primary --mode 1920x1080 --pos 0x0 --rotate normal
-bspc monitor $primary -d 1 2 3 4 5 6 7 8 9 0
+xrandr --output "$primary" --primary --mode 1920x1080 --pos 0x0 --rotate normal
+bspc monitor "$primary" -d 1 2 3 4 5 6 7 8 9 0
 notify-send bspwm "No HDMI" -i display
 fi
 
 bspc config border_width         1
 bspc config window_gap           5
 
-bspc config split_ratio          0.52
+bspc config split_ratio          0.5
+bspc config single_monocle true
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
+bspc config click_to_focus        any
+bspc config focus_follows_pointer true
+bspc config pointer_modifier     mod4
 
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a Chromium desktop='^2'
