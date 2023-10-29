@@ -97,7 +97,7 @@ super + {Up,Left,Down,Right}
 
 #XF86Display
 super + p
-        arandr
+        sgrandr
 
 
 XF86MonBrightnessUp
