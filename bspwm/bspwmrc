@@ -3,6 +3,7 @@ primary="$(xrandr --listactivemonitors | grep 0: | cut -d' ' -f 6)"
 hdmi="$(xrandr --listactivemonitors | grep HDMI | cut -d' ' -f 6)"
 #bspc config -m "$primary" top_padding 26
 # xsetbg ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
+autorandr --change
 feh --bg-fill ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
 # nitrogen --set-zoom-fill  ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
 _JAVA_AWT_WM_NONREPARENTING=1
@@ -26,19 +27,33 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 
 #bspc monitor -d I II III IV V VI VII VIII IX X
 if [[ "$(xrandr -q | grep "HDMI-A-0 connected")" ]];then
-# xrandr --prop | grep "HDMI" -A99 | grep "EDID" -A16 | sed '/EDID:/d' | cut -d\     -f3
-
+### xrandr --prop | grep "HDMI" -A99 | grep "EDID" -A16 | sed '/EDID:/d' | cut -d\     -f3
 # if  grep -q "HDMI-A-0 connected" "$(xrandr -q)" ;then
-xrandr --output "$primary" --primary --mode 1920x1080 --pos 0x0 --rotate normal --output "$hdmi" --mode 1920x1080 --pos 1920x0 --rotate normal
+#xrandr --output "$primary" --primary --mode 1920x1080 --pos 0x0 --rotate normal --output "$hdmi" --mode 1920x1080 --pos 1920x0 --rotate normal
 bspc monitor "$primary" -d 1 2 3 4 5 6 7 8 9
 bspc monitor "$hdmi" -d 0
-bspc config -m "$hdmi" top_padding 0
-# bspc config -m "$hdmi" right_padding        45
-# bspc config -m "$hdmi" left_padding         45
-# bspc config -m "$hdmi" bottom_padding       30
-notify-send bspwm "HDMI detected" -i display
+
+if [[ "$(autorandr --current)" = "bravia" ]]; then
+  bspc config -m "$hdmi" top_padding          18
+  bspc config -m "$hdmi" bottom_padding       19
+  bspc config -m "$hdmi" left_padding         32
+  bspc config -m "$hdmi" right_padding        32
+  known_hdmi=1
 else
-xrandr --output "$primary" --primary --mode 1920x1080 --pos 0x0 --rotate normal
+  bspc config -m "$hdmi" top_padding 0
+  bspc config -m "$hdmi" bottom_padding 0
+  bspc config -m "$hdmi" left_padding 0
+  bspc config -m "$hdmi" right_padding 0
+  known_hdmi=0
+fi
+pactl set-default-sink alsa_output.pci-0000_04_00.1.hdmi-stereo
+notify-send bspwm "HDMI detected ($known_hdmi)" -i display
+else
+if [[ $(bspc query -M | wc -l) = 2 ]]; then
+  bspc monitor  $(bspc query -M | tail -1) -r
+fi
+pactl set-default-sink alsa_output.pci-0000_04_00.6.analog-stereo
+###xrandr --output "$primary" --primary --mode 1920x1080 --pos 0x0 --rotate normal
 bspc monitor "$primary" -d 1 2 3 4 5 6 7 8 9 0
 notify-send bspwm "No HDMI" -i display
 fi
