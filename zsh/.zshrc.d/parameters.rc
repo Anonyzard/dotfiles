@@ -1,3 +1,0 @@
-#!/bin/zsh
-LESS="-R -i"
-DEBEMAIL="anonyzard@loc-os.com"
