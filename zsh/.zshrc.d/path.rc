@@ -1,0 +1,9 @@
+#!/bin/zsh
+# System PATH
+add2path /bin /usr/bin /usr/local/bin \
+/sbin /usr/sbin \
+/usr/games /usr/local/games \
+/opt/flutter/bin ~/.local/bin
+
+# Zsh PATH
+fpath=(/usr/share/zsh/site-functions /home/anonyzard/.local/share/zsh/site-functions $fpath)

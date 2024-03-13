@@ -1,0 +1,12 @@
+#!/bin/zsh
+autoload -Uz promptinit
+promptinit
+#prompt adam1
+
+# This option causes conflict with zinit and zsh-autosuggestions
+# emulate sh
+
+setopt histignorealldups sharehistory interactivecomments
+# setopt notify
+
+LESS="-R -i"

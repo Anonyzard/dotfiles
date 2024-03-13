@@ -1,0 +1,61 @@
+#!/bin/zsh
+
+add2path() {
+    for toadd in $@ ; do
+        echo $PATH | grep -Eq "(^|:)$toadd(:|)" || PATH=$PATH:$toadd
+    done
+}
+
+nvm() {
+    export NVM_DIR="$HOME/.config/nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+    # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+minidlna() {
+    if ! [[ $(lsblk /dev/sda5 --output MOUNTPOINT | tail -1) = "" ]]; then
+        doas minidlnad -f /etc/minidlna.conf -R -u anonyzard
+    else
+        echo "Falta montar la partición de Datos"
+    fi
+}
+
+smpd() {
+    case $1 in
+        start)
+            doas rc-service mpd start
+            mpDris2 & disown
+            sleep 0.5; echo "" ;;
+        stop)
+            pkill mpDris2
+            doas rc-service mpd stop ;;
+        *)
+            echo "Use start or stop"
+    esac
+}
+
+transfer() { 
+    if [ $# -eq 0 ]; then
+        echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>" >& 2
+        return 1
+    fi
+    if tty -s; then
+        file="$1"
+        file_name=$(basename "$file")
+        if [ ! -e "$file" ]; then
+            echo "$file: No such file or directory" >& 2
+            return 1
+        fi
+        if [ -d "$file" ]; then
+            file_name="$file_name.zip"
+            (cd "$file" && zip -r -q - .) | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
+        else
+            cat "$file" | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
+        fi
+    else
+        file_name=$1
+        curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
+    fi 
+    echo ""
+}
+
