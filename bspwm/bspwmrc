@@ -1,11 +1,11 @@
-#! /bin/bash
+#! /bin/zsh
 primary="$(xrandr --listactivemonitors | grep 0: | cut -d' ' -f 6)"
 hdmi="$(xrandr --listactivemonitors | grep HDMI | cut -d' ' -f 6)"
 #bspc config -m "$primary" top_padding 26
 # xsetbg ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
 autorandr --change
-feh --bg-fill ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
-# nitrogen --set-zoom-fill  ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
+# feh --bg-fill ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
+nitrogen --set-zoom-fill  ~/.config/anonyzard/abstract-dark-red-3d-digital-art-vi.jpg
 _JAVA_AWT_WM_NONREPARENTING=1
 GTK3_MODULES="$GTK3_MODULES:xapp-gtk3-module"
 export _JAVA_AWT_WM_NONREPARENTING GTK3_MODULES
@@ -13,12 +13,13 @@ xsetroot -cursor_name left_ptr
 
 lxpolkit &
 ~/.config/polybar/launch.sh &
+# kdeconnect-indicator &
 #pgrep -x tint2 > /dev/null || tint2 &
 #pgrep -x menu-cached > /dev/null || /usr/lib/menu-cache/menu-cached &
 #pgrep -x dzen2 > /dev/null || .config/dzen2/config.sh &
 #pgrep -x cbatticon > /dev/null || cbatticon -x /home/anonyzard/shbat &
 #pgrep -x picom > /dev/null || picom --experimental-backends &
-rofi -v > /deb/null &
+rofi -v > /dev/null &
 pgrep -x alttab > /dev/null || alttab -fg "#ffffff" -bg "#1d2021" -frame "#eee0b7" -t 400x30 -i 64x64 -w 1 &
 #sleep 1
 #pgrep -x wpa-cute > /dev/null || wpa-cute -t &
@@ -75,6 +76,7 @@ bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=on
 bspc rule -a Sgrandr state=floating
+bspc rule -a Sglauncher state=floating
 bspc rule -a Arandr state=floating
 bspc rule -a Gcolor3 state=floating sticky=on
 bspc rule -a Gdebi-gtk state=floating

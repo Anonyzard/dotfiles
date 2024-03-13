@@ -2,6 +2,7 @@
 
 #Font to display gliphs
 font="Ubuntu Nerd Font Book 13"
+
 # options to be displyed
 option0=" Logout"
 option1=" Lock"
@@ -28,13 +29,16 @@ case $selected in
 #    $option4)
 #        systemctl hybrid-sleep;;
     "$option5")
-        loginctl reboot;;
+        # loginctl reboot ;;
+        doas /sbin/openrc-shutdown -r now ;;
         #sudo init 6;;
         # sudo reboot;;
     "$option6")
-        loginctl poweroff;;
+        # loginctl poweroff;;
+        doas /sbin/openrc-shutdown -p now ;;
         #sudo init 0;;
         # sudo shutdown now;;
 esac
+
 # This script is a fork of
 # https://github.com/ItzSelenux/slnxwm/blob/main/scripts/logout
