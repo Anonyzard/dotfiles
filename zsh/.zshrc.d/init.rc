@@ -6,6 +6,7 @@ promptinit
 # This option causes conflict with zinit and zsh-autosuggestions
 # emulate sh
 
+setopt GLOB_COMPLETE
 setopt histignorealldups sharehistory interactivecomments
 # setopt notify
 

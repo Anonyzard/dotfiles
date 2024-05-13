@@ -12,7 +12,8 @@ source $DIR_ZSHRC/alias.rc
 source $DIR_ZSHRC/functions.rc
 source $DIR_ZSHRC/path.rc
 source $DIR_ZSHRC/completion.rc
-source /etc/zsh_command_not_found
+#source /etc/zsh_command_not_found
+#source /usr/share/zsh/functions/cmd-not-found.zsh
 
 source $DIR_ZSHRC/keybindings.rc
 source $DIR_ZSHRC/env.rc

@@ -1,5 +1,22 @@
 #!/bin/zsh
 
+ _gitfetch() { [ -d ./.git ] && onefetch --no-art --churn-pool-size=5 --no-title --no-color-palette -E -T programming markup prose data }
+ [ -x $(which onefetch) ] && chpwd_functions+=(_gitfetch)
+
+upgit() {
+	gitdirs=""
+	for dirs in ./*; do
+	    if [ -d $dirs ]; then
+	        if [ -d $dirs/.git ]; then
+	            echo -e "\033[01;36m$dirs\033[00m"
+	            cd $dirs
+	            git pull
+	            cd ..
+	        fi
+	    fi
+	done
+}
+
 add2path() {
     for toadd in $@ ; do
         echo $PATH | grep -Eq "(^|:)$toadd(:|)" || PATH=$PATH:$toadd
