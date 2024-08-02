@@ -13,6 +13,7 @@ xsetroot -cursor_name left_ptr
 
 lxpolkit &
 ~/.config/polybar/launch.sh &
+#nm-applet & disown
 # kdeconnect-indicator &
 #pgrep -x tint2 > /dev/null || tint2 &
 #pgrep -x menu-cached > /dev/null || /usr/lib/menu-cache/menu-cached &

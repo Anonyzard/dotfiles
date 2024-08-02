@@ -5,7 +5,7 @@
 # terminal emulator
 # Return
 super + t
-	sakura
+	sakura || alacritty
 
 # program launcher
 super + @space
