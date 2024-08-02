@@ -1,2 +1,4 @@
 bkp/
 *sample*
+*__pycache__
+*private*

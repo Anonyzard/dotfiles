@@ -18,3 +18,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+
+alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
+alias scrcpy="scrcpy -KSw"
+alias ranked="curl -s \"https://archlinux.org/mirrorlist/?country=BR&country=CL&country=US&protocol=https&use_mirror_status=on\" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 -v -w -t  -"
+alias reflectors="sudo reflector --verbose --age 1 --sort rate --protocol http,https --download-timeout 10 --fastest 5 --country Argentina,Brazil,Chile,United\ States --save /etc/pacman.d/mirrorlist ; cat /etc/pacman.d/mirrorlist"

@@ -20,3 +20,4 @@ source $DIR_ZSHRC/env.rc
 source $DIR_ZSHRC/zinit.rc
 # bindkey '^H' backward-}kill-word
 
+[ -f $DIR_ZSHRC/private.rc ] && source $DIR_ZSHRC/private.rc

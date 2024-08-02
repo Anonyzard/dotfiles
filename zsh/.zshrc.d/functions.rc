@@ -4,17 +4,17 @@
  [ -x $(which onefetch) ] && chpwd_functions+=(_gitfetch)
 
 upgit() {
-	gitdirs=""
-	for dirs in ./*; do
-	    if [ -d $dirs ]; then
-	        if [ -d $dirs/.git ]; then
-	            echo -e "\033[01;36m$dirs\033[00m"
-	            cd $dirs
-	            git pull
-	            cd ..
-	        fi
-	    fi
-	done
+    gitdirs=""
+    for dirs in ./*; do
+        if [ -d $dirs ]; then
+            if [ -d $dirs/.git ]; then
+                echo -e "\033[01;36m$dirs\033[00m"
+                cd $dirs
+                git pull
+                cd ..
+            fi
+        fi
+    done
 }
 
 add2path() {
@@ -76,3 +76,7 @@ transfer() {
     echo ""
 }
 
+jellyfin() {
+    pgrep jellyfin > /dev/null && doas systemctl stop jellyfin || doas systemctl start jellyfin
+    echo "Status:$(systemctl status jellyfin | grep Active | cut -d: -f2)"
+}
